@@ -65,5 +65,5 @@ def handSim(floors):
 
 
 if __name__ == "__main__":
-    #simulation()
+    simulation()
     handSim(floors)
