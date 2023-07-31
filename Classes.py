@@ -13,6 +13,7 @@ class SmallElevator(Singleton):  # Пассажирский лифт
     MAXWEIGHT = 400
     MAXPEOPLE = 5
 
+
     alavlable = True
 
     SPEED = 2  # m/s
@@ -31,7 +32,8 @@ class SmallElevator(Singleton):  # Пассажирский лифт
         return self.status[self.CurrentStatusIndex]
 
     def pressButtonFloor(self, floor):
-        self.RunToFloor(floor)
+        #if 1 >= floor <= 20:
+            self.RunToFloor(floor)
 
     def pressButtonCloseDoors(self):
         self.doorStatus = "Открыты"
@@ -114,7 +116,8 @@ class BigElevator(Singleton):  # Грусзовой лифт
         return self.status[self.CurrentStatusIndex]
 
     def pressButtonFloor(self, floor):
-        self.RunToFloor(floor)
+        #if 1 >= floor <= 20:
+            self.RunToFloor(floor)
 
     def pressButtonCloseDoors(self):
         self.doorStatus = "Открыты"
