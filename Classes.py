@@ -1,3 +1,6 @@
+import time
+
+
 class Singleton(object):
     def __new__(cls, *args, **kw):
         if not hasattr(cls, '_instance'):
@@ -18,23 +21,23 @@ class SmallElevator(Singleton):  # Пассажирский лифт
 
     CurretFloor = 1
 
-    status = ["едет вверх", "едет вниз", "открывает двери", "закрывает двери", "стоит с открытыми дверьми",
-              "вызов диспетчера"]
+    status = ["Едет вверх", "Едет вниз", "Открывает двери", "Закрывает двери", "Стоит с открытыми дверьми",
+              "Вызов диспетчера"]
     CurrentStatusIndex = 4
 
-    doorStatus = True
+    doorStatus = "Открыты"
 
     def GetStatus(self):
         return self.status[self.CurrentStatusIndex]
 
     def pressButtonFloor(self, floor):
-        None
+        self.RunToFloor(floor)
 
     def pressButtonCloseDoors(self):
-        doorStatus = False
+        self.doorStatus = "Открыты"
 
     def pressButtonOpenDoors(self):
-        doorStatus = True
+        self.doorStatus = "Закрыты"
 
     def pressButtonCallDispatcher(self):
         self.CurrentStatusIndex = 5
@@ -42,23 +45,49 @@ class SmallElevator(Singleton):  # Пассажирский лифт
         print("Идёт вызов диспетчера")
 
     def RunToFloor(self, floor):
-        self.CurrentStatusIndex = 3
-        print(self.status[self.CurrentStatusIndex])
-
         if floor > self.CurretFloor:
+            self.CurrentStatusIndex = 3
+            print(self.status[self.CurrentStatusIndex])
+            self.doorStatus = "Закрыты"
+
             self.CurrentStatusIndex = 0
             print(self.status[self.CurrentStatusIndex])
-            # TODO логика поездки вверх
 
-        if floor < self.CurretFloor:
-            self.CurrentStatusIndex = 1
-            print(self.status[self.CurrentStatusIndex])
-            # TODO логика поездки вниз
+            print(f"Пассажирский лифт едет на {floor} этаж")
 
-        if floor == self.CurretFloor:
+            meters = (floor - self.CurretFloor + 1) * self.FLOORHEIGHT
+            time.sleep(meters / self.SPEED)
+
+            self.CurretFloor = floor
+            print(f"Пассажирский лифт приехал на {self.CurretFloor} этаж")
+
             self.CurrentStatusIndex = 2
             print(self.status[self.CurrentStatusIndex])
-            print("Лифт уже на {self.CurretFloor} этаже")
+            self.doorStatus = "Открыты"
+
+        elif floor < self.CurretFloor:
+            self.CurrentStatusIndex = 3
+            print(self.status[self.CurrentStatusIndex])
+            self.doorStatus = "Закрыты"
+
+            self.CurrentStatusIndex = 1
+            print(self.status[self.CurrentStatusIndex])
+
+            print(f"Пассажирский лифт едет на {floor} этаж")
+
+            meters = (self.CurretFloor - floor + 1) * self.FLOORHEIGHT
+            time.sleep(meters / self.SPEED)
+
+            self.CurretFloor = floor
+            print(f"Пассажирский лифт приехал на {self.CurretFloor} этаж")
+
+            self.CurrentStatusIndex = 2
+            print(self.status[self.CurrentStatusIndex])
+            self.doorStatus = "Открыты"
+
+        elif floor == self.CurretFloor:
+            print(f"Пассажирский лифт уже на {self.CurretFloor} этаже")
+            self.doorStatus = "Открыты"
             self.CurrentStatusIndex = 4
             print(self.status[self.CurrentStatusIndex])
 
@@ -75,8 +104,8 @@ class BigElevator(Singleton):  # Грусзовой лифт
 
     CurretFloor = 1
 
-    status = ["едет вверх", "едет вниз", "открывает двери", "закрывает двери", "стоит с открытыми дверьми",
-              "вызов диспетчера"]
+    status = ["Едет вверх", "Едет вниз", "Открывает двери", "Закрывает двери", "Стоит с открытыми дверьми",
+              "Вызов диспетчера"]
     CurrentStatusIndex = 4
 
     doorStatus = "Открыты"
@@ -85,13 +114,13 @@ class BigElevator(Singleton):  # Грусзовой лифт
         return self.status[self.CurrentStatusIndex]
 
     def pressButtonFloor(self, floor):
-        None
+        self.RunToFloor(floor)
 
     def pressButtonCloseDoors(self):
-        doorStatus = "Открыты"
+        self.doorStatus = "Открыты"
 
     def pressButtonOpenDoors(self):
-        doorStatus = "Закрыты"
+        self.doorStatus = "Закрыты"
 
     def pressButtonCallDispatcher(self):
         self.CurrentStatusIndex = 5
@@ -99,23 +128,51 @@ class BigElevator(Singleton):  # Грусзовой лифт
         print("Идёт вызов диспетчера")
 
     def RunToFloor(self, floor):
-        self.CurrentStatusIndex = 3
-        print(self.status[self.CurrentStatusIndex])
-
         if floor > self.CurretFloor:
+            self.CurrentStatusIndex = 3
+            print(self.status[self.CurrentStatusIndex])
+            self.doorStatus = "Закрыты"
+
             self.CurrentStatusIndex = 0
             print(self.status[self.CurrentStatusIndex])
-            # TODO логика поездки вверх
 
-        if floor < self.CurretFloor:
-            self.CurrentStatusIndex = 1
-            print(self.status[self.CurrentStatusIndex])
-            # TODO логика поездки вниз
+            print(f"Грузовой лифт едет на {floor} этаж")
 
-        if floor == self.CurretFloor:
+            meters = (floor - self.CurretFloor + 1) * self.FLOORHEIGHT
+            time.sleep(meters / self.SPEED)
+
+            self.CurretFloor = floor
+            print(f"Грузовой лифт приехал на {self.CurretFloor} этаж")
+
             self.CurrentStatusIndex = 2
             print(self.status[self.CurrentStatusIndex])
-            print("Лифт уже на {self.CurretFloor} этаже")
+            self.doorStatus = "Открыты"
+
+
+        elif floor < self.CurretFloor:
+            self.CurrentStatusIndex = 3
+            print(self.status[self.CurrentStatusIndex])
+            self.doorStatus = "Закрыты"
+
+            self.CurrentStatusIndex = 1
+            print(self.status[self.CurrentStatusIndex])
+
+            print(f"Грузовой лифт едет на {floor} этаж")
+
+            meters = (self.CurretFloor - floor + 1) * self.FLOORHEIGHT
+            time.sleep(meters / self.SPEED)
+
+            self.CurretFloor = floor
+            print(f"Грузовой лифт приехал на {self.CurretFloor} этаж")
+
+            self.CurrentStatusIndex = 2
+            print(self.status[self.CurrentStatusIndex])
+            self.doorStatus = "Открыты"
+            pass
+
+        elif floor == self.CurretFloor:
+            print(f"Грузовой лифт уже на {self.CurretFloor} этаже")
+            self.doorStatus = "Открыты"
             self.CurrentStatusIndex = 4
             print(self.status[self.CurrentStatusIndex])
 
@@ -135,4 +192,9 @@ class Floor:
     SmallEvevatorStatus = SmallElevatorClass.GetStatus()
 
     def CallElevator(self):
-        None
+        print(f"Лифт вызван на {self.THISFLOOR} этаж")
+        if (abs(self.BigElevatorClass.CurretFloor - self.THISFLOOR)) < (
+                abs(self.SmallElevatorClass.CurretFloor - self.THISFLOOR)):
+            self.BigElevatorClass.RunToFloor(self.THISFLOOR)
+        else:
+            self.SmallElevatorClass.RunToFloor(self.THISFLOOR)
